@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Text:ital@0;1&family=Parkinsans:wght@300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.loginContainer {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.leftPanel {
+    width: 30%;
+    height: 100vh;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('/cafepanel.png');
+    background-size: cover;
+}
+
+.rightPanel {
+    width: 70%;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login {
+    width: 542px;
+}
+
+.login__title {
+    text-align: center;
+    font-family: 'DM Serif Text';
+    font-style: normal;
+    font-weight: 600;
+    color: #532F19;
+    font-size: 64px;
+}
+
+.login__form label {
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.login__form input {
+    width: calc(100% - (21px * 2));
+    height: calc(64px - 2px - (25px*2));
+    padding: 25px 21px;
+    margin: 15px 0;
+    border: 1px solid #F0E4CB;
+    border-radius: 15px;
+    font-size: 16px;
+    color: #646665;
+}
+
+.login__form__options {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.login__form__options__remember {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login__form__options label,
+.login__form__options a {
+    font-size: 16px;
+    font-family: inherit;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.login__form__options a {
+    text-decoration: none;
+    color: black;
+}
+
+.login__form__submit {
+    height: 64px;
+    background-color: #532F19;
+    border-radius: 15px;
+    color: white;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    max-width: 542px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+}
