@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const API_URL = process.env.API_URL || 'http://localhost:8000';
 
-async function login(email, password) {
+async function postLogin(email, password) {
     const endpoint = `${API_URL}/v1/auth/login`;
 
     try {
@@ -19,4 +19,4 @@ async function login(email, password) {
     }
 }
 
-export { login };
+export { postLogin };
