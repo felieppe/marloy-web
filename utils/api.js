@@ -36,4 +36,55 @@ async function fetchProveedores(token, page = 1, pageSize = 10) {
     }
 }
 
-export { postLogin, fetchProveedores };
+async function postProveedor(token, data) {
+    const endpoint = `${API_URL}/v1/proveedores/`;
+
+    try {
+        const response = await axios.post(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error creating proveedor:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function putProveedor(token, id, data) {
+    const endpoint = `${API_URL}/v1/proveedores/${id}/`;
+
+    try {
+        const response = await axios.put(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating proveedor:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function deleteProveedor(token, id) {
+    const endpoint = `${API_URL}/v1/proveedores/${id}/`;
+
+    try {
+        const response = await axios.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting proveedor:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+export { postLogin, fetchProveedores, postProveedor, putProveedor, deleteProveedor };
