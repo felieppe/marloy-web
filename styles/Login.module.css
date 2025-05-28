@@ -94,3 +94,7 @@
     font-size: 16px;
     font-weight: 500;
 }
+
+.invalid_label {
+    border-color: rgba(255, 0, 0, 0.356) !important;
+}

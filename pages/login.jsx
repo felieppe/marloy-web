@@ -1,10 +1,36 @@
 const styles = require('../styles/Login.module.css')
 
-const { useState } = require('react')
+const { useState, useEffect } = require('react')
 const { postLogin } = require('../utils/api')
+const cookies = require('js-cookie')
 
 function Login() {
     const [login, setLogin] = useState({ email: '', password: '' });
+    const [errors, setErrors] = useState([]);
+
+    const validateForm = () => {
+        setErrors([]);
+        
+        let errs = []
+        let isValid = true;
+
+        if (!login.email) {
+            errs.push('EMAIL_REQUIRED');
+            isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(login.email)) {
+            errs.push('EMAIL_INVALID');
+            isValid = false;
+        }
+
+        if (!login.password) {
+            errs.push('PASSWORD_REQUIRED');
+            isValid = false;
+        }
+
+        setErrors(errs);
+        console.log('Validation errors:', errors);
+        return isValid
+    }
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -12,11 +38,14 @@ function Login() {
 
         postLogin(login.email, login.password)
             .then((response) => {
-                if (response.status === 200) {
-                    localStorage.setItem('token', response.data.token)
-                    window.location.href = '/dashboard'
+                if (response.success) {
+                    localStorage.setItem('token', response.data.access_token);
+                    localStorage.setItem('user', JSON.stringify({ email: login.email, access_token: response.data.access_token, isAdmin: response.data.is_admin }));
+
+                    cookies.set('token', response.data.access_token, { path: '/' });
+                    window.location.href = '/';
                 } else {
-                    alert('Login failed. Please check your credentials.')
+                    alert('Login failed. Please check your credentials.');
                 }
             })
             .catch((error) => {
@@ -24,6 +53,13 @@ function Login() {
                 alert('Login failed. Please check your credentials.')
             });
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || cookies.get('token');
+        if (token) {
+            window.location.href = '/';
+        }
+    }, []);
 
     return (
         <div className={styles.loginContainer}>
@@ -35,10 +71,10 @@ function Login() {
 
                     <div className={styles.login__form}>
                         <label htmlFor="email">Email</label> <br />
-                        <input type="email" id="email" name="email" placeholder="Enter your email" value={login.email} onChange={(e) => { setLogin({ ...login, [e.target.name]: e.target.value }) }} required /> <br />
+                        <input className={errors.includes("EMAIL_REQUIRED") || errors.includes("EMAIL_INVALID") ? styles.invalid_label : null} type="email" id="email" name="email" placeholder="Enter your email" value={login.email} onChange={(e) => { setLogin({ ...login, [e.target.name]: e.target.value }) }} required /> <br />
 
                         <label htmlFor="password">Password</label> <br />
-                        <input type="password" id="password" name="password" placeholder="Enter your password" value={login.password} onChange={(e) => { setLogin({ ...login, [e.target.name]: e.target.value }) }} required /> <br />
+                        <input className={errors.includes("PASSWORD_REQUIRED") ? styles.invalid_label : null} type="password" id="password" name="password" placeholder="Enter your password" value={login.password} onChange={(e) => { setLogin({ ...login, [e.target.name]: e.target.value }) }} required /> <br />
 
                         <div className={styles.login__form__options}>
                             <div className={styles.login__form__options__remember}>
