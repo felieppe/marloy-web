@@ -19,8 +19,8 @@ async function postLogin(email, password) {
     }
 }
 
-async function fetchProveedores(token) {
-    const endpoint = `${API_URL}/v1/proveedores/`;
+async function fetchProveedores(token, page = 1, pageSize = 10) {
+    const endpoint = `${API_URL}/v1/proveedores?page=${page}&page_size=${pageSize}`;
 
     try {
         const response = await axios.get(endpoint, {
@@ -29,7 +29,7 @@ async function fetchProveedores(token) {
             }  
         })
 
-        return response.data;
+        return response;
     } catch (error) {
         console.error('Error fetching proveedores:', error);
         throw error.response ? error.response.data["error"] : error;
