@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DashboardLeftMenu from '../components/dashboardLeftMenu';
 import DashboardTopMenu from "@/components/dashboardTopMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { fetchProveedores } from "@/utils/api";
 
 const styles = require('../styles/Home.module.css');
@@ -11,6 +11,9 @@ const cookies = require('js-cookie');
 function Home() {
     const [user, setUser] = useState(null);
     const [proveedores, setProveedores] = useState([]);
+    const [currentPage, setCurrentPage] = useState(null);
+    const [totalPages, setTotalPages] = useState(null);
+    const [pageSize] = useState(10);
     
     const tab = 'Proveedores'
 
@@ -24,13 +27,24 @@ function Home() {
         } else { window.location.href = '/login'; }
 
         if (token) {
-            fetchProveedores(localStorage.getItem('token') || cookies.get('token')).then((res) => {
-                setProveedores(res.data);
+            fetchProveedores(localStorage.getItem('token') || cookies.get('token'), 1, pageSize).then((res) => {
+                setProveedores(res.data.data);
+                setCurrentPage(res.data.page)
+                setTotalPages(res.data.total_pages)
             })
         }
     }, [])
 
-    if (!user) {
+    const handlePageChange = (page) => {
+        if (page == currentPage || page < 1 || page > totalPages) return;
+
+        fetchProveedores(localStorage.getItem('token') || cookies.get('token'), page, pageSize).then((res) => {
+            setProveedores(res.data.data);
+            setCurrentPage(page)
+        })
+    }
+
+    if (!user || !totalPages) {
         return <div>Loading...</div>;
     }
 
@@ -64,6 +78,20 @@ function Home() {
                         ))}
                     </thead>
                 </table>
+
+                { totalPages > 1 ? <div className={styles.pagination}>
+                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className={styles.pagination__button} >
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button key={i + 1} onClick={() => handlePageChange(i + 1)} className={`${styles.pagination__button} ${currentPage === i + 1 ? styles.pagination__button_active : ''}`} >
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className={styles.pagination__button} >
+                        <FontAwesomeIcon icon={faArrowRight} />
+                    </button>
+                </div> : null }
             </div>
         </div>
     )
