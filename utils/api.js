@@ -19,4 +19,21 @@ async function postLogin(email, password) {
     }
 }
 
-export { postLogin };
+async function fetchProveedores(token) {
+    const endpoint = `${API_URL}/v1/proveedores/`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }  
+        })
+
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching proveedores:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+export { postLogin, fetchProveedores };
