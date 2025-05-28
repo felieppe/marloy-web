@@ -1,0 +1,35 @@
+.menu {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 42px 48px 20px 48px;
+    height: fit-content;
+}
+
+.menu__active {
+    font-size: 26px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.menu__right {
+    display: flex;
+    gap: 20px;
+}
+
+.right__hello {
+    display: flex;
+    align-items: center;
+    color: #532F19;
+}
+
+.right__logout {
+    border: 1px solid #532F19;
+    border-radius: 8px;
+    color: #532F19;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-self: center;
+    padding: 5px 10px;
+}
