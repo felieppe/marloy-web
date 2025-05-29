@@ -1,0 +1,157 @@
+.items__add {
+    border-radius: 10px;
+    padding: 8px 20px;
+    border: 1px solid black;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.items__add:hover {
+    background-color: #3e3028;
+    color: white;
+    transition: background-color 0.3s ease;
+    transition: color 0.3s ease;
+}
+
+.items {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.items th,
+.items td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.items th {
+    background-color: #f0f2f5;
+    color: #333;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.items th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.items th:last-child {
+    border-top-right-radius: 12px;
+}
+
+.items tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.items tbody tr:hover {
+    background-color: #eef2f7;
+    transition: background-color 0.3s ease;
+}
+
+.items tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.items tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.items tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+.item__actions {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.item__action {
+    margin: 0 0.5rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.item__action:hover {
+    transform: scale(1.1);
+}
+
+.item__action[data-icon="pencil"] {
+    color: #402413;
+}
+
+.item__action[data-icon="pencil"]:hover {
+    color: #41200c;
+}
+
+.item__action[data-icon="trash"] {
+    color: #402413;
+}
+
+.item__action[data-icon="trash"]:hover {
+    color: #41200c;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.pagination__button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #e2e6ea, #ffffff);
+    color: #343a40;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05), -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+.pagination__button:hover {
+    background: linear-gradient(145deg, #d4dae0, #f0f2f5);
+    color: rgb(255, 255, 255);
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1), -3px -3px 8px rgba(255, 255, 255, 0.7);
+}
+
+.pagination__button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background: #e9ecef;
+    color: #6c757d;
+    box-shadow: none;
+    transform: none;
+}
+
+.pagination__button_active {
+    background: linear-gradient(145deg, #5e2f12, #41200c);
+    color: white;
+    font-weight: 600;
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.2), inset -2px -2px 6px rgba(255, 255, 255, 0.5);
+    transform: translateY(0);
+}
+
+.pagination__button_active:hover {
+    background: linear-gradient(145deg, #41200c, #2b1408);
+}
