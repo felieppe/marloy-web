@@ -87,4 +87,76 @@ async function deleteProveedor(token, id) {
     }
 }
 
-export { postLogin, fetchProveedores, postProveedor, putProveedor, deleteProveedor };
+async function fetchInsumos(token, page = 1, pageSize = 10) {
+    const endpoint = `${API_URL}/v1/insumos?page=${page}&page_size=${pageSize}`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching insumos:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function postInsumo(token, data) {
+    const endpoint = `${API_URL}/v1/insumos/`;
+
+    try {
+        const response = await axios.post(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error creating insumo:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function putInsumo(token, id, data) {
+    const endpoint = `${API_URL}/v1/insumos/${id}/`;
+
+    try {
+        const response = await axios.put(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating insumo:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function deleteInsumo(token, id) {
+    const endpoint = `${API_URL}/v1/insumos/${id}/`;
+
+    try {
+        const response = await axios.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting insumo:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+export {
+    postLogin,
+    fetchProveedores, postProveedor, putProveedor, deleteProveedor,
+    fetchInsumos, postInsumo, putInsumo, deleteInsumo
+};
