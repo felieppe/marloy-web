@@ -1,4 +1,4 @@
-import { deleteCliente, deleteInsumo, deleteMaquina, deleteProveedor, fetchClientes, fetchInsumos, fetchMaquinas, fetchProveedores, postCliente, postInsumo, postMaquina, postProveedor, putCliente, putInsumo, putMaquina, putProveedor } from "@/utils/api";
+import { deleteCliente, deleteInsumo, deleteMaquina, deleteProveedor, deleteTecnico, fetchClientes, fetchInsumos, fetchMaquinas, fetchProveedores, fetchTecnicos, postCliente, postInsumo, postMaquina, postProveedor, postTecnico, putCliente, putInsumo, putMaquina, putProveedor, putTecnico } from "@/utils/api";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -158,6 +158,47 @@ export const dataConfig = {
                 currentItem.id_cliente !== newFormData.id_cliente ||
                 currentItem.ubicacion_cliente !== newFormData.ubicacion_cliente ||
                 currentItem.costo_alquiler_mensual !== newFormData.costo_alquiler_mensual
+        }
+    },
+    tecnicos: {
+        tabName: 'Técnicos',
+        fetchData: fetchTecnicos,
+        deleteItem: deleteTecnico,
+        newItemButtonText: 'NUEVO TÉCNICO',
+        tableHeaders: ['#', 'CI', 'Nombre', 'Apellido', 'Teléfono', 'Acciones'],
+        renderRow: (item, index, styles, handleItemEdit, handleItemDelete) => (
+            <>
+                <td>{index + 1}</td>
+                <td>{item.ci}</td>
+                <td>{item.nombre}</td>
+                <td>{item.apellido}</td>
+                <td>{item.telefono}</td>
+                <td className={styles.item__actions}>
+                    <FontAwesomeIcon icon={faPencil} className={styles.item__action} onClick={() => handleItemEdit(item)} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.item__action} id={item.id} onClick={() => handleItemDelete(item.ci)} />
+                </td>
+            </>
+        ),
+        confirmDeleteMessage: '¿Estás seguro de que deseas eliminar este técnico?',
+        formConfig: {
+            titleCreate: 'Crear nuevo técnico',
+            titleEdit: 'Editar técnico',
+            submitButtonTextCreate: 'Crear técnico',
+            submitButtonTextEdit: 'Guardar cambios',
+            initialData: { ci: '', nombre: '', apellido: '', telefono: '' },
+            apiPost: postTecnico,
+            apiPut: putTecnico,
+            fields: [
+                { name: 'ci', label: 'CI', type: 'text', placeholder: 'Cédula de Identidad del técnico', required: true },
+                { name: 'nombre', label: 'Nombre', type: 'text', placeholder: 'Nombre del técnico', required: true },
+                { name: 'apellido', label: 'Apellido', type: 'text', placeholder: 'Apellido del técnico', required: true },
+                { name: 'telefono', label: 'Teléfono', type: 'text', placeholder: 'Teléfono del técnico', required: true },
+            ],
+            hasChanges: (currentItem, newFormData) => 
+                currentItem.ci !== newFormData.ci ||
+                currentItem.nombre !== newFormData.nombre ||
+                currentItem.apellido !== newFormData.apellido ||
+                currentItem.telefono !== newFormData.telefono
         }
     }
 }
