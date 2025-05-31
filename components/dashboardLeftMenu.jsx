@@ -11,7 +11,7 @@ function DashboardLeftMenu({ activeTab = "" }) {
         { icon: faCashRegister, label: 'Maquinas', link: '/maquinas' },
         { icon: faUserTie, label: 'Tecnicos', link: '/tecnicos' },
         { icon: faToolbox, label: 'Mantenimientos', link: '/mantenimientos' },
-        { icon: faFileInvoice, label: 'Registro de consumo', link: '/registro-de-consumo' },
+        { icon: faFileInvoice, label: 'Registro de consumo', link: '/consumos' },
         { icon: faUsers, label: 'Usuarios', link: '/usuarios' },
         { icon: faBook, label: 'Reportes', link: '/reportes' }
     ]
