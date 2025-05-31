@@ -1,4 +1,4 @@
-import { deleteInsumo, deleteProveedor, fetchInsumos, fetchProveedores, postInsumo, postProveedor, putInsumo, putProveedor } from "@/utils/api";
+import { deleteCliente, deleteInsumo, deleteProveedor, fetchClientes, fetchInsumos, fetchProveedores, postCliente, postInsumo, postProveedor, putCliente, putInsumo, putProveedor } from "@/utils/api";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -76,6 +76,47 @@ export const dataConfig = {
                 currentItem.tipo !== newFormData.tipo ||
                 currentItem.precio_unitario !== newFormData.precio_unitario ||
                 currentItem.id_proveedor !== newFormData.id_proveedor
+        }
+    },
+    clientes: {
+        tabName: 'Clientes',
+        fetchData: fetchClientes,
+        deleteItem: deleteCliente,
+        newItemButtonText: 'NUEVO CLIENTE',
+        tableHeaders: ['#', 'Nombre', 'Dirección', 'Teléfono', 'Correo Electronico', 'Acciones'],
+        renderRow: (item, index, styles, handleItemEdit, handleItemDelete) => (
+            <>
+                <td>{index + 1}</td>
+                <td>{item.nombre}</td>
+                <td>{item.direccion}</td>
+                <td>{item.telefono}</td>
+                <td>{item.correo}</td>
+                <td className={styles.item__actions}>
+                    <FontAwesomeIcon icon={faPencil} className={styles.item__action} onClick={() => handleItemEdit(item)} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.item__action} id={item.id} onClick={() => handleItemDelete(item.id)} />
+                </td>
+            </>
+        ),
+        confirmDeleteMessage: '¿Estás seguro de que deseas eliminar este cliente?',
+        formConfig: {
+            titleCreate: 'Crear nuevo cliente',
+            titleEdit: 'Editar cliente',
+            submitButtonTextCreate: 'Crear cliente',
+            submitButtonTextEdit: 'Guardar cambios',
+            initialData: { nombre: '', direccion: '', telefono: '', correo: '' },
+            apiPost: postCliente,
+            apiPut: putCliente,
+            fields: [
+                { name: 'nombre', label: 'Nombre', type: 'text', placeholder: 'Nombre del cliente', required: true },
+                { name: 'direccion', label: 'Dirección', type: 'text', placeholder: 'Dirección del cliente', required: true },
+                { name: 'telefono', label: 'Teléfono', type: 'text', placeholder: 'Teléfono del cliente', required: true },
+                { name: 'correo', label: 'Correo Electrónico', type: 'email', placeholder: 'Correo electrónico del cliente', required: true },
+            ],
+            hasChanges: (currentItem, newFormData) => 
+                currentItem.nombre !== newFormData.nombre ||
+                currentItem.direccion !== newFormData.direccion ||
+                currentItem.telefono !== newFormData.telefono ||
+                currentItem.correo !== newFormData.correo
         }
     }
 }
