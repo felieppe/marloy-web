@@ -1,6 +1,8 @@
 .dashboard {
     background-color: #F2EFE5;
     display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .content {
