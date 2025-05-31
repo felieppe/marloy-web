@@ -291,10 +291,79 @@ async function deleteMaquina(token, id) {
     }
 }
 
+async function fetchTecnicos(token, page = 1, pageSize = 10) {
+    const endpoint = `${API_URL}/v1/tecnicos?page=${page}&page_size=${pageSize}`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching tecnicos:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function postTecnico(token, data) {
+    const endpoint = `${API_URL}/v1/tecnicos/`;
+
+    try {
+        const response = await axios.post(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error creating tecnico:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function putTecnico(token, ci, data) {
+    const endpoint = `${API_URL}/v1/tecnicos/${ci}/`;
+
+    try {
+        const response = await axios.put(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating tecnico:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function deleteTecnico(token, ci) {
+    const endpoint = `${API_URL}/v1/tecnicos/${ci}/`;
+
+    try {
+        const response = await axios.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting tecnico:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
 export {
     postLogin,
     fetchProveedores, postProveedor, putProveedor, deleteProveedor,
     fetchInsumos, postInsumo, putInsumo, deleteInsumo,
     fetchClientes, postCliente, putCliente, deleteCliente,
-    fetchMaquinas, postMaquina, putMaquina, deleteMaquina
+    fetchMaquinas, postMaquina, putMaquina, deleteMaquina,
+    fetchTecnicos, postTecnico, putTecnico, deleteTecnico
 };
