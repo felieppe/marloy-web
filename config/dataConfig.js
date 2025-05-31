@@ -1,4 +1,4 @@
-import { deleteCliente, deleteInsumo, deleteProveedor, fetchClientes, fetchInsumos, fetchProveedores, postCliente, postInsumo, postProveedor, putCliente, putInsumo, putProveedor } from "@/utils/api";
+import { deleteCliente, deleteInsumo, deleteMaquina, deleteProveedor, fetchClientes, fetchInsumos, fetchMaquinas, fetchProveedores, postCliente, postInsumo, postMaquina, postProveedor, putCliente, putInsumo, putMaquina, putProveedor } from "@/utils/api";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -117,6 +117,47 @@ export const dataConfig = {
                 currentItem.direccion !== newFormData.direccion ||
                 currentItem.telefono !== newFormData.telefono ||
                 currentItem.correo !== newFormData.correo
+        }
+    },
+    maquinas: {
+        tabName: 'Maquinas',
+        fetchData: fetchMaquinas,
+        deleteItem: deleteMaquina,
+        newItemButtonText: 'NUEVA MAQUINA',
+        tableHeaders: ['#', 'Modelo', 'ID Cliente', 'Ubicación del Cliente', 'Costo Alquiler Mensual', 'Acciones'],
+        renderRow: (item, index, styles, handleItemEdit, handleItemDelete) => (
+            <>
+                <td>{index + 1}</td>
+                <td>{item.modelo}</td>
+                <td>{item.id_cliente}</td>
+                <td>{item.ubicacion_cliente}</td>
+                <td>{item.costo_alquiler_mensual}</td>
+                <td className={styles.item__actions}>
+                    <FontAwesomeIcon icon={faPencil} className={styles.item__action} onClick={() => handleItemEdit(item)} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.item__action} id={item.id} onClick={() => handleItemDelete(item.id)} />
+                </td>
+            </>
+        ),
+        confirmDeleteMessage: '¿Estás seguro de que deseas eliminar esta máquina?',
+        formConfig: {
+            titleCreate: 'Crear nueva máquina',
+            titleEdit: 'Editar máquina',
+            submitButtonTextCreate: 'Crear máquina',
+            submitButtonTextEdit: 'Guardar cambios',
+            initialData: { modelo: '', id_cliente: '', ubicacion_cliente: '', costo_alquiler_mensual: '' },
+            apiPost: postMaquina,
+            apiPut: putMaquina,
+            fields: [
+                { name: 'modelo', label: 'Modelo', type: 'text', placeholder: 'Modelo de la máquina', required: true },
+                { name: 'id_cliente', label: 'ID Cliente', type: 'select', optionsApiUrl: '/api/clientes', required: true },
+                { name: 'ubicacion_cliente', label: 'Ubicación del Cliente', type: 'text', placeholder: 'Ubicación del cliente', required: true },
+                { name: 'costo_alquiler_mensual', label: 'Costo Alquiler Mensual', type: 'number', placeholder: 'Costo de alquiler mensual de la máquina', required: true },
+            ],
+            hasChanges: (currentItem, newFormData) => 
+                currentItem.modelo !== newFormData.modelo ||
+                currentItem.id_cliente !== newFormData.id_cliente ||
+                currentItem.ubicacion_cliente !== newFormData.ubicacion_cliente ||
+                currentItem.costo_alquiler_mensual !== newFormData.costo_alquiler_mensual
         }
     }
 }
