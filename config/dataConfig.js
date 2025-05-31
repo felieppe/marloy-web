@@ -1,4 +1,4 @@
-import { deleteCliente, deleteInsumo, deleteMaquina, deleteProveedor, deleteTecnico, fetchClientes, fetchInsumos, fetchMaquinas, fetchProveedores, fetchTecnicos, postCliente, postInsumo, postMaquina, postProveedor, postTecnico, putCliente, putInsumo, putMaquina, putProveedor, putTecnico } from "@/utils/api";
+import { deleteCliente, deleteInsumo, deleteMantenimiento, deleteMaquina, deleteProveedor, deleteTecnico, fetchClientes, fetchInsumos, fetchMantenimientos, fetchMaquinas, fetchProveedores, fetchTecnicos, postCliente, postInsumo, postMantenimiento, postMaquina, postProveedor, postTecnico, putCliente, putInsumo, putMantenimiento, putMaquina, putProveedor, putTecnico } from "@/utils/api";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -199,6 +199,50 @@ export const dataConfig = {
                 currentItem.nombre !== newFormData.nombre ||
                 currentItem.apellido !== newFormData.apellido ||
                 currentItem.telefono !== newFormData.telefono
+        }
+    },
+    mantenimientos: {
+        tabName: 'Mantenimientos',
+        fetchData: fetchMantenimientos,
+        deleteItem: deleteMantenimiento,
+        newItemButtonText: 'NUEVO MANTENIMIENTO',
+        tableHeaders: ['#', 'ID Maquina', 'CI Tecnico', 'Tipo', 'Fecha', 'Observaciones', 'Acciones'],
+        renderRow: (item, index, styles, handleItemEdit, handleItemDelete) => (
+            <>
+                <td>{index + 1}</td>
+                <td>{item.id_maquina}</td>
+                <td>{item.ci_tecnico}</td>
+                <td>{item.tipo}</td>
+                <td>{item.fecha}</td>
+                <td>{item.observaciones}</td>
+                <td className={styles.item__actions}>
+                    <FontAwesomeIcon icon={faPencil} className={styles.item__action} onClick={() => handleItemEdit(item)} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.item__action} id={item.id} onClick={() => handleItemDelete(item.id)} />
+                </td>
+            </>
+        ),
+        confirmDeleteMessage: '¿Estás seguro de que deseas eliminar este mantenimiento?',
+        formConfig: {
+            titleCreate: 'Crear nuevo mantenimiento',
+            titleEdit: 'Editar mantenimiento',
+            submitButtonTextCreate: 'Crear mantenimiento',
+            submitButtonTextEdit: 'Guardar cambios',
+            initialData: { id_maquina: '', ci_tecnico: '', tipo: '', fecha: '', observaciones: '' },
+            apiPost: postMantenimiento,
+            apiPut: putMantenimiento,
+            fields: [
+                { name: 'id_maquina', label: 'ID Maquina', type: 'select', optionsApiUrl: '/api/maquinas', required: true },
+                { name: 'ci_tecnico', label: 'CI Tecnico', type: 'select', optionsApiUrl: '/api/tecnicos', required: true },
+                { name: 'tipo', label: 'Tipo de Mantenimiento', type: 'text', placeholder: 'Tipo de mantenimiento realizado', required: true },
+                { name: 'fecha', label: 'Fecha', type: 'date', placeholder: 'Fecha del mantenimiento', required: true },
+                { name: 'observaciones', label: 'Observaciones', type: 'textarea', placeholder: 'Observaciones del mantenimiento' },
+            ],
+            hasChanges: (currentItem, newFormData) =>
+                currentItem.id_maquina !== newFormData.id_maquina ||
+                currentItem.ci_tecnico !== newFormData.ci_tecnico ||
+                currentItem.tipo !== newFormData.tipo ||
+                currentItem.fecha !== newFormData.fecha ||
+                currentItem.observaciones !== newFormData.observaciones
         }
     }
 }
