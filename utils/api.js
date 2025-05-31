@@ -155,8 +155,77 @@ async function deleteInsumo(token, id) {
     }
 }
 
+async function fetchClientes(token, page = 1, pageSize = 10) {
+    const endpoint = `${API_URL}/v1/clientes?page=${page}&page_size=${pageSize}`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching clientes:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function postCliente(token, data) {
+    const endpoint = `${API_URL}/v1/clientes/`;
+
+    try {
+        const response = await axios.post(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error creating cliente:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function putCliente(token, id, data) {
+    const endpoint = `${API_URL}/v1/clientes/${id}/`;
+
+    try {
+        const response = await axios.put(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating cliente:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function deleteCliente(token, id) {
+    const endpoint = `${API_URL}/v1/clientes/${id}/`;
+
+    try {
+        const response = await axios.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting cliente:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
 export {
     postLogin,
     fetchProveedores, postProveedor, putProveedor, deleteProveedor,
-    fetchInsumos, postInsumo, putInsumo, deleteInsumo
+    fetchInsumos, postInsumo, putInsumo, deleteInsumo,
+    fetchClientes, postCliente, putCliente, deleteCliente
 };
