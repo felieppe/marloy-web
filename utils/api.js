@@ -359,11 +359,80 @@ async function deleteTecnico(token, ci) {
     }
 }
 
+async function fetchMantenimientos(token, page = 1, pageSize = 10) {
+    const endpoint = `${API_URL}/v1/mantenimientos?page=${page}&page_size=${pageSize}`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching mantenimientos:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function postMantenimiento(token, data) {
+    const endpoint = `${API_URL}/v1/mantenimientos/`;
+
+    try {
+        const response = await axios.post(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error creating mantenimiento:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function putMantenimiento(token, id, data) {
+    const endpoint = `${API_URL}/v1/mantenimientos/${id}/`;
+
+    try {
+        const response = await axios.put(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating mantenimiento:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function deleteMantenimiento(token, id) {
+    const endpoint = `${API_URL}/v1/mantenimientos/${id}/`;
+
+    try {
+        const response = await axios.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting mantenimiento:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
 export {
     postLogin,
     fetchProveedores, postProveedor, putProveedor, deleteProveedor,
     fetchInsumos, postInsumo, putInsumo, deleteInsumo,
     fetchClientes, postCliente, putCliente, deleteCliente,
     fetchMaquinas, postMaquina, putMaquina, deleteMaquina,
-    fetchTecnicos, postTecnico, putTecnico, deleteTecnico
+    fetchTecnicos, postTecnico, putTecnico, deleteTecnico,
+    fetchMantenimientos, postMantenimiento, putMantenimiento, deleteMantenimiento
 };
