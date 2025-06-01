@@ -94,6 +94,8 @@ function GenericForm({ formType, item, onClose, onUpdate, formConfig }) {
                                         value={formData[field.name] || ''}
                                         onChange={handleChange}
                                         required={field.required}
+                                        editable={field.editable}
+                                        disabled={field.disabled}
                                     />
                                 ) : (
                                     <input
@@ -104,6 +106,8 @@ function GenericForm({ formType, item, onClose, onUpdate, formConfig }) {
                                         value={formData[field.name] || (field.type === 'number' ? 0 : '')}
                                         onChange={handleChange}
                                         required={field.required}
+                                        editable={field.editable}
+                                        disabled={field.disabled}
                                     />
                                 )}
                             </div>
