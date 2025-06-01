@@ -1,4 +1,4 @@
-import { deleteCliente, deleteInsumo, deleteMantenimiento, deleteMaquina, deleteProveedor, deleteTecnico, fetchClientes, fetchInsumos, fetchMantenimientos, fetchMaquinas, fetchProveedores, fetchTecnicos, postCliente, postInsumo, postMantenimiento, postMaquina, postProveedor, postTecnico, putCliente, putInsumo, putMantenimiento, putMaquina, putProveedor, putTecnico } from "@/utils/api";
+import { deleteCliente, deleteInsumo, deleteMantenimiento, deleteMaquina, deleteProveedor, deleteTecnico, fetchClientes, fetchInsumos, fetchMantenimientos, fetchMaquinas, fetchProveedores, fetchRegistroConsumos, fetchTecnicos, postCliente, postInsumo, postMantenimiento, postMaquina, postProveedor, postTecnico, putCliente, putInsumo, putMantenimiento, putMaquina, putProveedor, putTecnico } from "@/utils/api";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -244,5 +244,23 @@ export const dataConfig = {
                 currentItem.fecha !== newFormData.fecha ||
                 currentItem.observaciones !== newFormData.observaciones
         }
+    },
+    consumos: {
+        tabName: 'Registro de consumos',
+        fetchData: fetchRegistroConsumos,
+        deleteItem: null,
+        newItemButtonText: null,
+        tableHeaders: ['#', 'ID Maquina', 'ID Insumo', 'Fecha', 'Cantidad Usada'],
+        renderRow: (item, index, styles, handleItemEdit, handleItemDelete) => (
+            <>
+                <td>{index + 1}</td>
+                <td>{item.id_maquina}</td>
+                <td>{item.id_insumo}</td>
+                <td>{item.fecha}</td>
+                <td>{item.cantidad_usada}</td>
+            </>
+        ),
+        confirmDeleteMessage: null,
+        formConfig: null
     }
 }
