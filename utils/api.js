@@ -512,6 +512,103 @@ async function deleteUsuario(token, id) {
     }
 }
 
+async function fetchFacturacionMensual(token, page = 1, pageSize = 10, month = 5, year = 2025) {
+    try {
+        const res = await fetchClientes(token);
+        let clientes = res.data.data;
+
+        const billingPromises = clientes.map(async cliente => {
+            const endpoint = `${API_URL}/v1/reportes/facturacion-mensual/${cliente.id}?month=${month}&year=${year}`;
+            try {
+                const response = await axios.get(endpoint, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                return response.data.data;
+            } catch (err) {
+                if (err.response && err.response.status === 404) {
+                    console.warn(`Client with ID ${cliente.id} not found (404). Skipping this client.`);
+                    return null;
+                } else {
+                    console.error(`Error fetching monthly billing for client ${cliente.nombre} (ID: ${cliente.id}):`, err.message);
+                    return null; 
+                }
+            }
+        });
+        const results = await Promise.allSettled(billingPromises);
+
+        let facturaciones = results
+            .filter(result => result.status === 'fulfilled' && result.value !== null)
+            .map(result => result.value);
+
+        const finalData = {
+            data: {
+                success: true,
+                data: facturaciones,
+                page: page,
+                total_pages: Math.ceil(facturaciones.length / pageSize)
+            }
+        };
+
+        return finalData;
+    } catch (err) {
+        console.error('An error occurred during the initial client fetch or overall process:', err);
+        throw err.response ? err.response["error"] : err;
+    }
+}
+
+async function fetchInsumosMasConsumidos(token) {
+    const endpoint = `${API_URL}/v1/reportes/insumos-mas-consumidos`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching most consumed insumos:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function fetchTecnicosMasMantenimientos(token) {
+    const endpoint = `${API_URL}/v1/reportes/tecnicos-mas-mantenimientos`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching technicians with most maintenances:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function fetchClientesMasMaquinas(token) {
+    const endpoint = `${API_URL}/v1/reportes/clientes-mas-maquinas`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching clients with most machines:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
 export {
     postLogin,
     fetchProveedores, postProveedor, putProveedor, deleteProveedor,
@@ -521,5 +618,6 @@ export {
     fetchTecnicos, postTecnico, putTecnico, deleteTecnico,
     fetchMantenimientos, postMantenimiento, putMantenimiento, deleteMantenimiento,
     fetchRegistroConsumos,
-    fetchUsuarios, postUsuario, putUsuario, deleteUsuario
+    fetchUsuarios, postUsuario, putUsuario, deleteUsuario,
+    fetchFacturacionMensual, fetchInsumosMasConsumidos, fetchTecnicosMasMantenimientos, fetchClientesMasMaquinas
 };
