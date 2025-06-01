@@ -427,6 +427,23 @@ async function deleteMantenimiento(token, id) {
     }
 }
 
+async function fetchRegistroConsumos(token, page = 1, pageSize = 10) {
+    const endpoint = `${API_URL}/v1/registro-consumos?page=${page}&page_size=${pageSize}`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching registro de consumos:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
 export {
     postLogin,
     fetchProveedores, postProveedor, putProveedor, deleteProveedor,
@@ -434,5 +451,6 @@ export {
     fetchClientes, postCliente, putCliente, deleteCliente,
     fetchMaquinas, postMaquina, putMaquina, deleteMaquina,
     fetchTecnicos, postTecnico, putTecnico, deleteTecnico,
-    fetchMantenimientos, postMantenimiento, putMantenimiento, deleteMantenimiento
+    fetchMantenimientos, postMantenimiento, putMantenimiento, deleteMantenimiento,
+    fetchRegistroConsumos
 };
