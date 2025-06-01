@@ -74,7 +74,7 @@ function DataList( { config }) {
 
     return (
         <>
-            <button className={styles.items__add} onClick={ handleItemNew }>{ newItemButtonText }</button>
+            { newItemButtonText ? <button className={styles.items__add} onClick={ handleItemNew }>{ newItemButtonText }</button> : null }
             { formVisble ? <GenericForm formType={formType} onClose={ handleItemClose } onUpdate={ handleItemUpdate } item={ formData } formConfig={ config.formConfig }/> : null }
 
             <table className={styles.items}>
