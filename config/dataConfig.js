@@ -1,4 +1,4 @@
-import { deleteCliente, deleteInsumo, deleteMantenimiento, deleteMaquina, deleteProveedor, deleteTecnico, fetchClientes, fetchInsumos, fetchMantenimientos, fetchMaquinas, fetchProveedores, fetchRegistroConsumos, fetchTecnicos, postCliente, postInsumo, postMantenimiento, postMaquina, postProveedor, postTecnico, putCliente, putInsumo, putMantenimiento, putMaquina, putProveedor, putTecnico } from "@/utils/api";
+import { deleteCliente, deleteInsumo, deleteMantenimiento, deleteMaquina, deleteProveedor, deleteTecnico, deleteUsuario, fetchClientes, fetchInsumos, fetchMantenimientos, fetchMaquinas, fetchProveedores, fetchRegistroConsumos, fetchTecnicos, fetchUsuarios, postCliente, postInsumo, postMantenimiento, postMaquina, postProveedor, postTecnico, postUsuario, putCliente, putInsumo, putMantenimiento, putMaquina, putProveedor, putTecnico, putUsuario } from "@/utils/api";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -262,5 +262,46 @@ export const dataConfig = {
         ),
         confirmDeleteMessage: null,
         formConfig: null
+    },
+    usuarios: {
+        tabName: 'Usuarios',
+        fetchData: fetchUsuarios,
+        deleteItem: deleteUsuario,
+        newItemButtonText: 'NUEVO USUARIO',
+        tableHeaders: ['#', 'Correo electronico', 'Es Administrador?', 'Acciones'],
+        renderRow: (item, index, styles, handleItemEdit, handleItemDelete) => (
+            <>
+                <td>{index + 1}</td>
+                <td>{item.correo}</td>
+                <td>{item.es_administrador ? "Si" : "No"}</td>
+                <td className={styles.item__actions}>
+                    <FontAwesomeIcon icon={faPencil} className={styles.item__action} onClick={() => handleItemEdit(item)} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.item__action} id={item.id} onClick={() => handleItemDelete(item.correo)} />
+                </td>
+            </>
+        ),
+        confirmDeleteMessage: '¿Estás seguro de que deseas eliminar este usuario?',
+        formConfig: {
+            titleCreate: 'Crear nuevo usuario',
+            titleEdit: 'Editar usuario',
+            submitButtonTextCreate: 'Crear usuario',
+            submitButtonTextEdit: 'Guardar cambios',
+            initialData: { correo: '', contraseña: '', es_administrador: false },
+            apiPost: postUsuario,
+            apiPut: putUsuario,
+            fields: [
+                { name: 'correo', label: 'Correo Electrónico', type: 'email', placeholder: 'Correo electrónico del usuario', required: true },
+                { name: 'contraseña', label: 'Contraseña', type: 'password', placeholder: 'Contraseña del usuario', required: true },
+                { name: 'es_administrador', label: 'Es Administrador?', type: 'checkbox', placeholder: '¿El usuario es administrador?' }
+            ],
+            editFields: [
+                { name: 'correo', label: 'Correo Electrónico', type: 'email', placeholder: 'Correo electrónico del usuario', required: true, disabled: true, editable: false },
+                { name: 'es_administrador', label: 'Es Administrador?', type: 'checkbox', placeholder: '¿El usuario es administrador?' }
+            ],
+            hasChanges: (currentItem, newFormData) =>
+                currentItem.correo !== newFormData.correo ||
+                currentItem.contraseña !== newFormData.contraseña ||
+                currentItem.es_administrador !== newFormData.es_administrador
+        }
     }
 }
