@@ -1,4 +1,4 @@
-import { deleteCliente, deleteInsumo, deleteMantenimiento, deleteMaquina, deleteProveedor, deleteTecnico, deleteUsuario, fetchClientes, fetchInsumos, fetchMantenimientos, fetchMaquinas, fetchProveedores, fetchRegistroConsumos, fetchTecnicos, fetchUsuarios, postCliente, postInsumo, postMantenimiento, postMaquina, postProveedor, postTecnico, postUsuario, putCliente, putInsumo, putMantenimiento, putMaquina, putProveedor, putTecnico, putUsuario } from "@/utils/api";
+import { deleteCliente, deleteInsumo, deleteMantenimiento, deleteMaquina, deleteProveedor, deleteTecnico, deleteUsuario, fetchClientes, fetchClientesMasMaquinas, fetchFacturacionMensual, fetchInsumos, fetchInsumosMasConsumidos, fetchMantenimientos, fetchMaquinas, fetchProveedores, fetchRegistroConsumos, fetchTecnicos, fetchTecnicosMasMantenimientos, fetchUsuarios, postCliente, postInsumo, postMantenimiento, postMaquina, postProveedor, postTecnico, postUsuario, putCliente, putInsumo, putMantenimiento, putMaquina, putProveedor, putTecnico, putUsuario } from "@/utils/api";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -303,5 +303,75 @@ export const dataConfig = {
                 currentItem.contraseña !== newFormData.contraseña ||
                 currentItem.es_administrador !== newFormData.es_administrador
         }
-    }
+    },
+    reportes: [
+        {
+            tabName: 'Facturacion por cliente',
+            fetchData: fetchFacturacionMensual,
+            deleteItem: null,
+            newItemButtonText: null,
+            tableHeaders: ['#', 'ID Cliente', 'Nombre Cliente', 'Alquiler Total', 'Total Insumos', 'Total a Cobrar'],
+            renderRow: (item, index, styles) => (
+                <>
+                    <td>{index + 1}</td>
+                    <td>{item.cliente_id}</td>
+                    <td>{item.nombre_cliente}</td>
+                    <td>{item.total_alquiler}</td>
+                    <td>{item.total_insumos}</td>
+                    <td>{item.total_a_cobrar}</td>
+                </>
+            ),
+            confirmDeleteMessage: null,
+            formConfig: null
+        },
+        {
+            tabName: 'Insumos más consumidos',
+            fetchData: fetchInsumosMasConsumidos,
+            deleteItem: null,
+            newItemButtonText: null,
+            tableHeaders: ['#', 'Descripción', 'Cantidad Total', 'Costo Total'],
+            renderRow: (item, index, styles) => (
+                <>
+                    <td>{index + 1}</td>
+                    <td>{item.insumo_descripcion}</td>
+                    <td>{item.total_cantidad}</td>
+                    <td>{item.total_costo}</td>
+                </>
+            ),
+            confirmDeleteMessage: null,
+            formConfig: null
+        },
+        {
+            tabName: 'Tecnicos con más mantenimientos',
+            fetchData: fetchTecnicosMasMantenimientos,
+            deleteItem: null,
+            newItemButtonText: null,
+            tableHeaders: ['#', 'Nombre Técnico', 'Mantenimientos Realizados'],
+            renderRow: (item, index, styles) => (
+                <>
+                    <td>{index + 1}</td>
+                    <td>{item.tecnico_nombre}</td>
+                    <td>{item.mantenimientos_realizados}</td>
+                </>
+            ),
+            confirmDeleteMessage: null,
+            formConfig: null
+        },
+        {
+            tabName: 'Clientes con más maquinas',
+            fetchData: fetchClientesMasMaquinas,
+            deleteItem: null,
+            newItemButtonText: null,
+            tableHeaders: ['#', 'Nombre Cliente', 'Total de maquinas'],
+            renderRow: (item, index, styles) => (
+                <>
+                    <td>{index + 1}</td>
+                    <td>{item.cliente_nombre}</td>
+                    <td>{item.total_maquinas}</td>
+                </>
+            ),
+            confirmDeleteMessage: null,
+            formConfig: null
+        }
+    ]
 }
