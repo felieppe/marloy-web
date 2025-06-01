@@ -444,6 +444,74 @@ async function fetchRegistroConsumos(token, page = 1, pageSize = 10) {
     }
 }
 
+async function fetchUsuarios(token, page = 1, pageSize = 10) {
+    const endpoint = `${API_URL}/v1/users?page=${page}&page_size=${pageSize}`;
+
+    try {
+        const response = await axios.get(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching usuarios:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function postUsuario(token, data) {
+    const endpoint = `${API_URL}/v1/users/`;
+
+    try {
+        const response = await axios.post(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error creating usuario:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function putUsuario(token, id, data) {
+    const endpoint = `${API_URL}/v1/users/${id}/`;
+
+    try {
+        const response = await axios.put(endpoint, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating usuario:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
+async function deleteUsuario(token, id) {
+    const endpoint = `${API_URL}/v1/users/${id}/`;
+
+    try {
+        const response = await axios.delete(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting usuario:', error);
+        throw error.response ? error.response.data["error"] : error;
+    }
+}
+
 export {
     postLogin,
     fetchProveedores, postProveedor, putProveedor, deleteProveedor,
@@ -452,5 +520,6 @@ export {
     fetchMaquinas, postMaquina, putMaquina, deleteMaquina,
     fetchTecnicos, postTecnico, putTecnico, deleteTecnico,
     fetchMantenimientos, postMantenimiento, putMantenimiento, deleteMantenimiento,
-    fetchRegistroConsumos
+    fetchRegistroConsumos,
+    fetchUsuarios, postUsuario, putUsuario, deleteUsuario
 };
