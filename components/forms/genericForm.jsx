@@ -5,8 +5,17 @@ import { useEffect, useState } from 'react';
 const styles = require('../../styles/components/GenericForm.module.css');
 
 function GenericForm({ formType, item, onClose, onUpdate, formConfig }) {
-    const { titleCreate, titleEdit, submitButtonTextCreate, submitButtonTextEdit, initialData, apiPost, apiPut, fields, hasChanges } = formConfig;
+    let { titleCreate, titleEdit, submitButtonTextCreate, submitButtonTextEdit, initialData, apiPost, apiPut, fields, editFields, hasChanges } = formConfig;
     const [formData, setFormData] = useState(initialData || {});
+
+    if (!formType || !['create', 'edit'].includes(formType)) {
+        console.error('formType debe ser "create" o "edit".');
+        return null;
+    }
+
+    if (formType === 'edit') {
+        if (editFields && Array.isArray(editFields)) { fields = editFields; }
+    }
 
     useEffect(() => {
         if (formType === 'edit' && item) {
