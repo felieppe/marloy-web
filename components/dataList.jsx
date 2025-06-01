@@ -31,7 +31,7 @@ function DataList( { config }) {
         if (!window.confirm(confirmDeleteMessage)) return;
         
         deleteItem(localStorage.getItem('token') || cookies.get('token'), itemId).then(() => {
-            setData(data.filter(item => (item.id || item.ci) !== itemId));
+            setData(data.filter(item => (item.id || item.ci || item.correo) !== itemId));
             if (currentPage > totalPages) { setCurrentPage(totalPages); }
         }).catch((error) => {
             console.error('Error al eliminar el item:', error);
@@ -85,7 +85,7 @@ function DataList( { config }) {
                         )) }
                     </tr>
                     { data.map((item, index) => (
-                        <tr key={item.id || item.ci || index}>
+                        <tr key={item.id || item.ci || item.correo || index}>
                             { renderRow(item, index, styles, handleItemEdit, handleItemDelete) }
                         </tr>
                     )) }

@@ -49,7 +49,7 @@ function GenericForm({ formType, item, onClose, onUpdate, formConfig }) {
                 await apiPost(token, formData);
                 console.log('Item created:', formData);
             } else if (formType === 'edit') {
-                if (!item || (!item.id && !item.ci)) {
+                if (!item || (!item.id && !item.ci && !item.correo)) {
                     console.error('Item no válido para edición');
                     return;
                 }
@@ -60,7 +60,7 @@ function GenericForm({ formType, item, onClose, onUpdate, formConfig }) {
                     return;
                 }
                 
-                await apiPut(token, item.id || item.ci, formData);
+                await apiPut(token, item.id || item.ci || item.correo, formData);
                 console.log('Item updated:', formData);
             }
             onUpdate();
