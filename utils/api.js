@@ -1,7 +1,25 @@
 const axios = require('axios');
+const cookies = require('js-cookie');
 require('dotenv').config();
 
 const API_URL = process.env.API_URL || 'http://localhost:8000';
+
+axios.interceptors.response.use((response) => response, async (error) => {
+    if (error.response && error.response.status === 401) {
+        console.error('Unauthorized access - possibly invalid token');
+        
+        localStorage.removeItem('user')
+        localStorage.removeItem('token');
+        cookies.remove('token');
+    } else if (error.response && error.response.status === 404) {
+        console.error('Resource not found:', error.response.data);
+    } else if (error.response && error.response.status >= 500) {
+        console.error('Server error:', error.response.data);
+    } else {
+        console.error('An unexpected error occurred:', error.message);
+    }
+    return Promise.reject(error);
+})
 
 async function postLogin(email, password) {
     const endpoint = `${API_URL}/v1/auth/login/`;
