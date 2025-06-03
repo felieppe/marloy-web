@@ -1,8 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans+Text:wght@400;500;700;800&display=swap');
+
 .menu {
     background-color: rgba(255, 255, 255, 0.27);
     width: fit-content;
     padding: 40px 20px;
     height: 100%;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    transition: all 0.3s ease-in-out;
 }
 
 .logo {
@@ -10,10 +15,11 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
-    font-family: 'DM Sans Text';
+    font-family: 'DM Sans Text', sans-serif;
     font-size: 26px;
     font-weight: 800;
     color: #532F19;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .menu__items {
@@ -32,10 +38,33 @@
     flex-direction: column;
     gap: 10px;
     width: fit-content;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    border-radius: 18px;
+    padding: 10px;
 }
 
 .menu__item:hover:not(.item__active) {
     color: hwb(0 0% 100% / 1);
+    transform: translateY(-3px) scale(1.05);
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Keyframes for the active item's load animation */
+@keyframes activeItemLoadAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.08); /* Final scale matches the existing .item__active style */
+    }
 }
 
 .item__active {
@@ -44,7 +73,12 @@
     border-radius: 18px;
     padding: 18px 10px;
     min-width: 68px;
-    cursor: default
+    cursor: default;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: scale(1.08);
+    transition: all 0.3s ease-in-out;
+    /* Apply the animation on load */
+    animation: activeItemLoadAnimation 0.5s ease-out forwards;
 }
 
 .item__label {
@@ -54,4 +88,42 @@
     text-align: center;
     max-width: 80px;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .menu {
+        width: 100%;
+        height: auto;
+        padding: 20px 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .menu__items {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .menu__item {
+        flex-direction: column;
+        padding: 10px 5px;
+        min-width: unset;
+        width: auto;
+    }
+    .item__active {
+        padding: 12px 8px;
+        min-width: unset;
+        /* Adjust animation for mobile if needed, or keep consistent */
+        animation: activeItemLoadAnimation 0.5s ease-out forwards;
+    }
+    .item__label {
+        font-size: 10px;
+        max-width: 60px;
+    }
+    .logo {
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
 }
